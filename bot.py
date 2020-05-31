@@ -43,29 +43,39 @@ async def on_ready():
 async def on_message(message):
     if message.author == bot.user:
       return
-    if re.match(r"starting roster", message.content, re.IGNORECASE):
-      msg ="""DE starting rosters:
+    if re.search(r"starting roster", message.content, re.IGNORECASE):
+      msg ="""
+      DE starting rosters:
+      **1. 4 Blitzers, 1 Runner, 6 Linos, 2 RRs**
+      Pros:
+      - rookie friendlier (more blocks, no frenzy trapping)
+      - fast 3rd RR through Leader on Runner
+      - safer (recommended for Eternal leagues rosters)
 
-            1. 4 Blitzers, 1 Runner, 6 Linos, 2 RRs
-            Pros:
-            - rookie friendlier (more blocks, no frenzy trapping)
-            - fast 3rd RR through Leader on Runner
-            - safer (recommended for Eternal leagues rosters)
+      Cons:
+      - no witch till about game 3/4
+      - runner hogs lot of SPP and you do not want to keep him forever
 
-            Cons:
-            - no witch till about game 3/4
-            - runner hogs lot of SPP and you do not want to keep him forever
+      **2. 3 Blitzers, 1 Witch, 2 RRs**
+      Pros:
+        - witch from the start (surfing threat/dodge)
+        - less wasted SPP
 
-            2. 3 Blitzers, 1 Witch, 2 RRs
-            Pros:
-              - witch from the start (surfing threat/dodge)
-              - less wasted SPP
+      Cons:
+        - witch from the start (additional liability/AV7)
+        - riskier (recommended for ladders where you can restart team if the first games go awry)
+        - need more money for 3rd RR/APO"
 
-            Cons:
-              - witch from the start (additional liability/AV7)
-              - riskier (recommended for ladders where you can restart team if the first games go awry)
-              - need more money for 3rd RR/APO"
-              """
+      **3. 4 Blitzers, 7 Linos, 2 RRs**
+      Pros:
+      - All your players are AV8
+      - More money left for Apo after first match
+      - Very safe, no players who you don't want SPP on
+      
+      Cons:
+      - No witch till about game 3/4
+      - Less MV7 on the team, you're noticeably slower to move over the pitch
+      """
 
       await message.channel.send(msg)
 
