@@ -3,22 +3,11 @@ import os
 import discord
 import re
 from discord.ext import commands
-import logging
 from logging.handlers import RotatingFileHandler
-
-ROOT = os.path.dirname(__file__)
-logger = logging.getLogger('discord')
-logger.setLevel(logging.INFO)
-logger.propagate = False
-handler = RotatingFileHandler(
-    os.path.join(ROOT, 'logs','discord.log'), maxBytes=1000000,
-    backupCount=5, encoding='utf-8', mode='a'
-)
-handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-logger.addHandler(handler)
+from misc.logger import logger
 
 bot = commands.Bot(command_prefix='!', case_insensitive=True)
-
+ROOT = os.path.dirname(__file__)
 
 @bot.check
 async def check_if_can_respond(ctx):
@@ -36,10 +25,10 @@ async def on_ready():
     logger.info(bot.user.id)
     logger.info('------')
 
-    act = discord.Game(f"Playing DE")
+    act = discord.Game(f"Playing BB2")
     await bot.change_presence(status=discord.Status.online, activity=act)
 
-@bot.event
+@bot.listen()
 async def on_message(message):
     if message.author == bot.user:
       return
@@ -78,6 +67,17 @@ async def on_message(message):
       """
 
       await message.channel.send(msg)
+
+
+cogs_dir = os.path.join(ROOT, 'cogs')
+# Here we load our extensions(cogs) that are located in the cogs directory. Any file in here attempts to load.
+if __name__ == '__main__':
+    for extension in [f.replace('.py', '') for f in os.listdir(cogs_dir) if os.path.isfile(os.path.join(cogs_dir, f))]:
+        try:
+            logger.info(f'Loading cog {extension}')
+            bot.load_extension("cogs." + extension)
+        except (discord.ClientException, ModuleNotFoundError):
+            logger.error(f'Failed to load extension {extension}.')
 
 with open(os.path.join(ROOT, 'config/TOKEN'), 'r') as token_file:
     TOKEN = token_file.read()
