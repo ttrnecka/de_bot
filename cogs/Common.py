@@ -25,7 +25,7 @@ class Common(BotCog):
           return
         embed = discord.Embed(\
             title=data['team']['name'], \
-            url=url,\
+            url=f"https://rebbl.net/rebbl/team/{team_id}",\
             description=data['team']['leitmotiv'] )
         embed.set_thumbnail(url=f"https://cdn2.rebbl.net/images/logo/256x256/logo_{data['team']['logo'].lower()}.png")
         await ctx.send(embed=embed)
